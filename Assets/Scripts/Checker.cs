@@ -48,6 +48,10 @@ public class Checker : MonoBehaviour
             {
                 maxPos.y = pos.y;
             }
+
+            //Check focus distance
+            float distance = Mathf.Pow((pos.x * pos.x + pos.y * pos.y), 2) / (pos.x * pos.x - pos.y * pos.y);
+            Debug.Log(distance);
         }
 
         if (maxPos.x - minPos.x > maxPos.y - minPos.y)
