@@ -158,14 +158,16 @@
 				var aspect = Math.Max(size.Width, size.Height) / Math.Min(size.Width, size.Height);
 				if (aspect >= 2.0)
 				{
-					if (chunk.Cols > chunk.Rows) // it lays on "broadside", let's make it tall again
-						chunk = chunk.Rotate(RotateFlags.Rotate90Clockwise);
+					//if (chunk.Cols > chunk.Rows) // it lays on "broadside", let's make it tall again
+					//	chunk = chunk.Rotate(RotateFlags.Rotate90Clockwise);
 
 					letters = new Mat[]
 					{
-						chunk,
-						chunk.Rotate(RotateFlags.Rotate180)
-					};
+						//chunk,
+                        chunk.Rotate(RotateFlags.Rotate90Clockwise),
+						//chunk.Rotate(RotateFlags.Rotate180),
+                        chunk.Rotate(RotateFlags.Rotate90CounterClockwise)
+                    };
 				}
 				else
 				{
