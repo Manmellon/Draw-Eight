@@ -158,14 +158,14 @@
 				var aspect = Math.Max(size.Width, size.Height) / Math.Min(size.Width, size.Height);
 				if (aspect >= 2.0)
 				{
-					//if (chunk.Cols > chunk.Rows) // it lays on "broadside", let's make it tall again
-					//	chunk = chunk.Rotate(RotateFlags.Rotate90Clockwise);
+					if (chunk.Cols > chunk.Rows) // it lays on "broadside", let's make it tall again
+						chunk = chunk.Rotate(RotateFlags.Rotate90Clockwise);
 
 					letters = new Mat[]
 					{
-						//chunk,
+						chunk,
                         chunk.Rotate(RotateFlags.Rotate90Clockwise),
-						//chunk.Rotate(RotateFlags.Rotate180),
+						chunk.Rotate(RotateFlags.Rotate180),
                         chunk.Rotate(RotateFlags.Rotate90CounterClockwise)
                     };
 				}
@@ -176,9 +176,9 @@
 					// used
 					letters = new Mat[]
 					{
-						//chunk,
+						chunk,
 						chunk.Rotate(RotateFlags.Rotate90Clockwise),
-						//chunk.Rotate(RotateFlags.Rotate180),
+						chunk.Rotate(RotateFlags.Rotate180),
 						chunk.Rotate(RotateFlags.Rotate90CounterClockwise)
 					};
 				}
@@ -190,7 +190,7 @@
 				for (int i = 0; i < letters.Length; ++i)
 				{
 					var local = ProcessSingleLetter(letters[i]);
-                    Debug.Log(local.Data);
+                    //Debug.Log(local.Data);
 					if (null != local && (null == unit || (null != unit && null != local && local.Confidence > unit.Confidence)))
 					{
                         if (char.IsUpper(local.Data[0]) || char.IsDigit(local.Data[0]))

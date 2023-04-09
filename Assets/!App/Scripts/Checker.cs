@@ -37,9 +37,9 @@ namespace OpenCvSharp.Demo
             bool result = false;
             foreach (var letter in letters)
             {
-                result |= letter.Data.Contains('8');
-                //var textData = string.Format("{0}: {1}%", letter.Data, System.Math.Round(letter.Confidence * 100));
-
+                var bounds = Cv2.BoundingRect(letter.Rect);
+                if (bounds.Width > bounds.Height)
+                    result |= letter.Data.Contains('8');
             }
             resultText.text = result.ToString();
         }
