@@ -3,11 +3,12 @@
 	using System;
 	using System.Collections.Generic;
 	using OpenCvSharp;
+    using UnityEngine;
 
-	/// <summary>
-	/// OpenCV Point struct(s) extension
-	/// </summary>
-	static partial class PointUtilities
+    /// <summary>
+    /// OpenCV Point struct(s) extension
+    /// </summary>
+    static partial class PointUtilities
 	{
 		/// <summary>
 		/// Normalizes vector
@@ -122,7 +123,12 @@
 			if (confidences.Length > 0)
 			{
 				var unit = new RecognizedLetter();
-				unit.Data = vocabulary[classes[0]].ToString();
+                unit.Data = "";
+                for (int i = 0; i < classes.Length; i++)
+                {
+                    unit.Data += vocabulary[classes[i]].ToString() + ",";
+                }
+				
 				unit.Confidence = confidences[0];
 				return unit;
 			}
@@ -168,9 +174,9 @@
 					// used
 					letters = new Mat[]
 					{
-						chunk,
+						//chunk,
 						chunk.Rotate(RotateFlags.Rotate90Clockwise),
-						chunk.Rotate(RotateFlags.Rotate180),
+						//chunk.Rotate(RotateFlags.Rotate180),
 						chunk.Rotate(RotateFlags.Rotate90CounterClockwise)
 					};
 				}
@@ -182,9 +188,10 @@
 				for (int i = 0; i < letters.Length; ++i)
 				{
 					var local = ProcessSingleLetter(letters[i]);
+                    Debug.Log(local.Data);
 					if (null != local && (null == unit || (null != unit && null != local && local.Confidence > unit.Confidence)))
 					{
-						if (char.IsUpper(local.Data[0]))
+                        if (char.IsUpper(local.Data[0]) || char.IsDigit(local.Data[0]))
 						{
 							unit = local;
 							selectedIndex = i;
@@ -193,7 +200,7 @@
 						{
 							lowerCases.Add(new KeyValuePair<int, RecognizedLetter>(i, local));
 						}
-					}
+                    }
 
 					//Cv2.ImShow(string.Format("#{0}: {1} - {2:00.0}%", i, local.Data, local.Confidence * 100), letters[i]);
 				}
